@@ -16,6 +16,7 @@ import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.example.service.CustomAuthenticationProvider;
 import com.example.service.CustomUserDetailService;
 
 @Configuration
@@ -25,6 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	@Autowired PasswordEncoder encoder ;
 	@Autowired CustomUserDetailService userDetail ;
+	@Autowired CustomAuthenticationProvider authProvider ;
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -46,7 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetail).passwordEncoder(encoder) ;
+//		auth.userDetailsService(userDetail).passwordEncoder(encoder) ;
+		auth.authenticationProvider(authProvider);
 	}
 	
 //	@Override
