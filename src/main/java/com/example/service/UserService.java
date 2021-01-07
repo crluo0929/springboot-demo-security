@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -18,11 +19,11 @@ public class UserService {
 	@Autowired PasswordEncoder encoder ;
 	
 	public User findUserById(int id){
-		return userDao.findById(id).get() ;
+		return Optional.ofNullable(userDao.findById(id)).get().orElse(null);
 	}
 	
 	public User findUserByName(String name) {
-		return userDao.findByUsername(name) ;
+		return Optional.ofNullable(userDao.findByUsername(name)).get().orElse(null) ;
 	}
 	
 	public List<User> findByCity(String city){

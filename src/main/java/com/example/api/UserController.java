@@ -1,11 +1,9 @@
 package com.example.api;
 
 import java.util.List;
-import java.util.Map;
-
-import javax.naming.AuthenticationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.entity.User;
 import com.example.service.UserService;
-import com.example.service.CustomUserDetailService;
 
 @RestController
 public class UserController {
@@ -32,6 +29,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/user/name/{name}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public User queryUserByUsername(@PathVariable("name") String username) {
 		return userService.findUserByName(username) ;
 	}
