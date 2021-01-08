@@ -33,7 +33,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 
 	@Override
 	public boolean supports(Class<?> authentication) {
-		return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
+//		return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
+		return authentication.equals(UsernamePasswordAuthenticationToken.class);
 	}
 
 	//模擬呼叫第三方認證，實際上還是去查DB做驗證
