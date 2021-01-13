@@ -20,7 +20,7 @@ public class JWTTokenProvider {
 	private static final long serialVersionUID = -2550185165626007488L;
 	public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 	
-	private String sceret = "sceret";
+	private String secret = "secret";
 	
 	//產生token
 	public String generateToken(UserDetails userDetails) {
@@ -43,14 +43,14 @@ public class JWTTokenProvider {
 	}
 	
 	public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
-		final Claims claims = Jwts.parser().setSigningKey(sceret).parseClaimsJws(token).getBody(); 
+		final Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody(); 
 		return claimsResolver.apply(claims);
 
 	}
 
 	private Boolean isTokenExpired(String token) {
 		final Date expiration = getExpirationDateFromToken(token);
-		return expiration.before(new Date());
+		return expiration.after(new Date());
 	}
 	
 	
@@ -61,7 +61,7 @@ public class JWTTokenProvider {
 				.setSubject(subject)
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-				.signWith(SignatureAlgorithm.HS512, sceret).compact();
+				.signWith(SignatureAlgorithm.HS512, secret).compact();
 	}
 	
 	
